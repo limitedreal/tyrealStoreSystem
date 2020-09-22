@@ -1,6 +1,11 @@
 package com.tyreal.myTest.DTO;
 
+import com.tyreal.myTest.validators.PasswordEqual;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.Valid;
 
 // 数据传输对象
 
@@ -9,9 +14,20 @@ import lombok.*;
 //@AllArgsConstructor
 //@NoArgsConstructor
 //@RequiredArgsConstructor
+
 @Builder
+@Getter
+@PasswordEqual(message = "PersonDTO，校验错误",min = 4)
+@NoArgsConstructor
+@AllArgsConstructor
 public class PersonDTO {
-    @NonNull
+    @Length(min = 2,max = 7,message = "校验错误")
     private String name;
-    private int age;
+    private Integer age;
+
+    //@PasswordEqual
+
+    private String password1;
+
+    private String password2;
 }

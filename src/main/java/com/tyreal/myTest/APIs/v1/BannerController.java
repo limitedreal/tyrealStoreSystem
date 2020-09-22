@@ -1,15 +1,15 @@
 package com.tyreal.myTest.APIs.v1;
 
 import com.tyreal.myTest.DTO.PersonDTO;
-import com.tyreal.myTest.exception.http.ForbiddenException;
-import com.tyreal.myTest.exception.http.NotFoundException;
 import com.tyreal.myTest.sample.ISkill;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import javax.validation.Valid;
 
+@Validated
 @RestController
 @RequestMapping("/banner")
 public class BannerController {
@@ -24,21 +24,19 @@ public class BannerController {
     // URL参数、问号参数、POST参数
 
     @GetMapping("/test/{id1}")
-    public String test1(@PathVariable(name="id1") Integer id
+    public PersonDTO test1(@PathVariable(name="id1") @Range(min = 15,max=19,message = "不可以超过15哦哦") Integer id
             ,@RequestParam String name
             ){
         iSkill.r();
-        throw new ForbiddenException(10001);
+        PersonDTO dto = PersonDTO.builder()
+                .name("tlb")
+                .age(20)
+                .build();
+        return dto;
     }
-    //@PostMapping("/test")
-    //public String test2(@RequestBody Map<String,Object> person){
-    //    //缺点，需要转型，需要装箱，应使用单独创建的类进行接收
-    //    iSkill.r();
-    //    throw new ForbiddenException(10001);
-    //}
 
     @PostMapping("/test")
-    public String test3(@RequestBody PersonDTO person){
+    public PersonDTO test3(@RequestBody @Validated PersonDTO person){
         //缺点，需要转型，需要装箱，应使用单独创建的类进行处理
         iSkill.r();
         //PersonDTO dto = new PersonDTO();
@@ -46,7 +44,8 @@ public class BannerController {
                 .name("tlb")
                 .age(20)
                 .build();
-        throw new ForbiddenException(10001);
+        return dto;
+        //throw new ForbiddenException(10001);
     }
 
 

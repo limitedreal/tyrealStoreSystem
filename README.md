@@ -140,6 +140,18 @@ Spring中可以直接返回类，Spring会进行序列化，但是需要保证�
         1. 问号参数
         2. URL参数
     2. POST参数
+3. 校验方式 Bean Validation
+
+在类上打上注解：Validated才可以继续使用参数校验
+#### Validated和Valid的异同
+1. 他们都可以开启校验，Validated是Spring对java Valid的扩展
+2. 建议的使用方式是：
+    1. 开启验证使用Validated
+    2. 级联使用Valid
+    3. 其他情况使用Validated
+
+#### 自定义校验方式
+
     
 
 ## lombok
@@ -162,4 +174,20 @@ PersonDTO dto = PersonDTO.builder()
 - builder的坑:
 1. 使用了builder之后就不能再使用构造方法了
     - 其实是builder注解会生成一个private的构造函数，可以手动写一个public构造避免这样的问题
-2. 
+2. 如果使用builder模式，而该类又需要当做bean返回到前端，那么还要加上@Getter注解才能序列化
+3. Entity上加上@Builder，会默认为类加上全参构造函数，且提供以建造器模式构造对象的方法。但此时因为显示声明了构造器，默认的无参构造器就失效了，就不能通过new Obj()的方式创建对象。这是自然想到加@NoArgsConstructor注解生成无参构造函数以便使用new Obj()方式创建对象，很多框架中都需要反射调用无参构造函数。但是如果显式声明了@NoArgsConstructor，lombok就不会生成全参构造函数，而@Builder中会用到全参构造函数，所以冲突。
+   `再加上@AllArgsConstructor可解决。
+   @Builder
+   @NoArgsConstructor
+   @AllArgsConstructor
+   同时使用`
+
+## JSR Java Specification Requests
+lombok: JSR-269
+Bean Validation: JSR-303
+
+
+
+
+
+
