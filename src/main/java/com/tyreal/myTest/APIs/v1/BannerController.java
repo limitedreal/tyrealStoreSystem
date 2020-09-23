@@ -27,6 +27,7 @@ public class BannerController {
     public PersonDTO test1(@PathVariable(name="id1") @Range(min = 15,max=19,message = "不可以超过15哦哦") Integer id
             ,@RequestParam String name
             ){
+        //System.out.println("get-ok");
         iSkill.r();
         PersonDTO dto = PersonDTO.builder()
                 .name("tlb")
@@ -35,9 +36,12 @@ public class BannerController {
         return dto;
     }
 
-    @PostMapping("/test")
-    public PersonDTO test3(@RequestBody @Validated PersonDTO person){
+    @PostMapping("/test/{id1}")
+    public PersonDTO test3(@PathVariable(name="id1") @Range(min = 1,max=10,message = "不可以超过15哦哦") Integer id
+            , @RequestParam String name
+            , @RequestBody @Validated PersonDTO person){
         //缺点，需要转型，需要装箱，应使用单独创建的类进行处理
+        //System.out.println("ok");
         iSkill.r();
         //PersonDTO dto = new PersonDTO();
         PersonDTO dto = PersonDTO.builder()
