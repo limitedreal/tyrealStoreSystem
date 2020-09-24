@@ -1,0 +1,12 @@
+#环境切换
+spring:
+  profiles:
+    active: dev
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+myTest:
+  api-package: com.tyreal.myTest.APIs
+
+
