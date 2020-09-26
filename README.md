@@ -211,9 +211,19 @@ repository->    repository层
 - 配置实体与实体之间的关系，是JPA高效的关键
 2. 数据表如何查询
     1. JPA默认为懒加载，而不是急加载
-## ORM
+## ORM Object Relational Mapping 对象关系映射
 
+@MappedSuperclass表明映射实体的父类/超类
+@Entity表明映射实体本身
+
+思想：如何看待数据库
 - 核心是用实体entity来操作/表达数据表
+存储、关系
+面向对象，面向对象本身也是表达关系、特征的一种方式
+数据表-> 类
+记录  ->对象
+字段  ->属性/成员变量
+
 
 ## 数据库表与表之间的关系
 1对1：
@@ -227,7 +237,9 @@ repository->    repository层
 
 单向/双向
 注意，双向时，外键JoinColumn是应该打到多端(维护端)的，在一端，被维护端的OneToMany(mappedBy = "banner")，其中字符串应该传入many端的导航属性的名字
+哪一方有mappedBy，哪一方就是被维护端
 
+## @JoinColumn(name="bannerId")这个是一定要加滴，不然没法找到
 
 ## 数据库设计
 - 思路：把表当做entity来思考
@@ -260,5 +272,13 @@ maven视图
 java xxx.jar
 java -jar xxx.jar --spring.profiles.active=dev
 更换环境，甚至不需要修改配置文件
+
+## Model
+关闭Model生成表的机制而使用数据库设计工具或者手写SQL语句
+可以使用表反向生成Model
+
+##开发流程
+优先CMS(运营) ToO -> C端(customer) ToC
+建议优先开发后端
 
 

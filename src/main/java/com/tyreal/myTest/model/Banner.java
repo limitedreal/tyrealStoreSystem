@@ -1,23 +1,23 @@
 package com.tyreal.myTest.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
-@Table(name = "banner")
-public class Banner {
+public class Banner extends BaseEntity{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 16)
     private String name;
-    @Transient
     private String description;
-    private String img;
-    //图片地址
     private String title;
-
-
-    @OneToMany(mappedBy = "banner")
+    private String img;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name="bannerId")//这个是一定要加滴！！！
     private List<BannerItem> items;
 }

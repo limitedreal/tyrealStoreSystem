@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Component
 @ConfigurationProperties(prefix = "tyreal")
-@PropertySource(value="classpath:config/exceptionCode.properties")
+@PropertySource(value="classpath:config/exceptionCode.yml")
 public class ExceptionCodeConfiguration {
 
     private Map<Integer,String> codes = new HashMap<>();
