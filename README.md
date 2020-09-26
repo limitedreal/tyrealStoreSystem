@@ -281,4 +281,49 @@ java -jar xxx.jar --spring.profiles.active=dev
 优先CMS(运营) ToO -> C端(customer) ToC
 建议优先开发后端
 
+## 序列化库
+Jackson   spring内置
+fastJson  阿里
+
+##扩展数据库
+最多的情况：字段不够用
+
+列是很难扩展的
+行是可以随意新增的
+所以在有新增需求的时候，可以做拆分，新增字段单列表，相当于新增了一些行
+可以所有表的新增字段都放在一起，放在一张表里，比如这种Config表
+
+Key Config
+id  name    value   table_name
+1   color   green   theme
+2   color2  red     banner
+3
+4   name    tyreal  banner_item
+
+## 静态资源
+图片、html、css、js
+##标准的托管服务
+单独构建一个服务
+nginx
+云服务
+OSS、七牛、码云 -> 第三方对象存储服务
+
+项目首先要有一个ECS，服务器代码在ECS上，但是静态资源不宜放在ECS上，主要问题在于带宽问题
+
+##设计复杂数据库
+先做好当下的发现了不足的需求之后再添加
+延迟思考，逐层深入
+
+SPU
+
+DetailImage 多
+SpuImage    多
+Sku         多
+
+## 利用懒加载减少数据库查询
+利用惰性加载，在序列化之前剔除一些数据，不更改model的情况下减少数据库查询的次数
+可以使用VO View Object，赋值的的时候可以使用dozermapper
+
+dozer的优势在于可以做深拷贝
+
 

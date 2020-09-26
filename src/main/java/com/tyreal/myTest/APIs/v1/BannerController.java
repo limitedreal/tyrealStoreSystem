@@ -1,6 +1,7 @@
 package com.tyreal.myTest.APIs.v1;
 
 import com.tyreal.myTest.DTO.PersonDTO;
+import com.tyreal.myTest.exception.http.NotFoundException;
 import com.tyreal.myTest.model.Banner;
 import com.tyreal.myTest.sample.ISkill;
 import com.tyreal.myTest.service.BannerService;
@@ -21,6 +22,9 @@ public class BannerController {
     @GetMapping("/name/{name}")
     public Banner getByName(@PathVariable String name) {
         Banner b = bannerService.getByName(name);
+        if(b==null){
+            throw new NotFoundException(30005);
+        }
         return b;
     }
 

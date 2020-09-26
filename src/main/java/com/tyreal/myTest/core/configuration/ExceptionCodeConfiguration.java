@@ -1,5 +1,6 @@
 package com.tyreal.myTest.core.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -9,7 +10,7 @@ import java.util.Map;
 
 @Component
 @ConfigurationProperties(prefix = "tyreal")
-@PropertySource(value="classpath:config/exceptionCode.yml")
+@PropertySource(value="classpath:config/exceptionCode.properties")
 public class ExceptionCodeConfiguration {
 
     private Map<Integer,String> codes = new HashMap<>();
