@@ -2,17 +2,20 @@ package com.tyreal.myTest.APIs.v1;
 
 import com.github.dozermapper.core.DozerBeanMapperBuilder;
 import com.github.dozermapper.core.Mapper;
+import com.tyreal.myTest.BO.PageCounter;
+import com.tyreal.myTest.VO.Paging;
+import com.tyreal.myTest.VO.PagingDozer;
 import com.tyreal.myTest.VO.SpuSimplifyVO;
 import com.tyreal.myTest.exception.http.NotFoundException;
 import com.tyreal.myTest.model.Spu;
 import com.tyreal.myTest.service.SpuService;
+import com.tyreal.myTest.utils.CommonUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Positive;
 import java.util.ArrayList;
@@ -44,15 +47,11 @@ public class SpuController {
     }
 
     @GetMapping("/latest")
-    public List<SpuSimplifyVO> getLatestSpuList() {
-        Mapper mapper = DozerBeanMapperBuilder.buildDefault();
-        List<SpuSimplifyVO> vos = new ArrayList<>();
-        List<Spu> spuList = spuService.getLatestPagingSpu();
-        spuList.forEach(s->{
-            SpuSimplifyVO vo = mapper.map(s,SpuSimplifyVO.class);
-            vos.add(vo);
-        });
-        return vos;
+    public PagingDozer<Spu,SpuSimplifyVO> getLatestSpuList(@RequestParam(defaultValue = "0") Integer start,
+                                                @RequestParam(defaultValue = "10") Integer count) {
+        PageCounter pageCounter = CommonUtil.convertToPageParameter(start,count);
+        Page<Spu> pageSpu=spuService.getLatestPagingSpu(pageCounter.getPage(),pageCounter.getCount());
+        return new PagingDozer<Spu,SpuSimplifyVO>(pageSpu,SpuSimplifyVO.class);
     }
 
 }
