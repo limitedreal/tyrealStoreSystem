@@ -9,8 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class SpuService {
     @Autowired
@@ -23,5 +21,15 @@ public class SpuService {
         //还没有真正查询数据库呢
         Pageable page = PageRequest.of(pageNum,size, Sort.by("createTime").descending());
         return this.spuRepository.findAll(page);
+    }
+    public Page<Spu> getByCategoryId(Long cid,Boolean isRoot,Integer pageNum,Integer size){
+        Pageable pageable = PageRequest.of(pageNum,size);
+        Page<Spu> spuPage;
+        if(isRoot){
+            spuPage = this.spuRepository.findByRootCategoryIdOrderByCreateTimeDesc(cid,pageable);
+        }else {
+            spuPage = this.spuRepository.findByCategoryIdOrderByCreateTimeDesc(cid,pageable);
+        }
+        return spuPage;
     }
 }

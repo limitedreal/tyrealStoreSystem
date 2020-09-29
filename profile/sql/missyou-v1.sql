@@ -131,11 +131,11 @@ CREATE TABLE `category` (
   `update_time` datetime(3) DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
   `delete_time` datetime(3) DEFAULT NULL,
   `is_root` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `parent_id` int(10) unsigned DEFAULT NULL,
+  `parent_id` int(10) unsigned DEFAULT NULL,-- 表明父级分类，用这种方式形成一种伪树形数据结构(没有唯一根节点)
   `img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `index` int(10) unsigned DEFAULT NULL,
-  `online` int(10) unsigned DEFAULT '1',
-  `level` int(10) unsigned DEFAULT NULL,
+  `index` int(10) unsigned DEFAULT NULL,-- 排序，运营手段
+  `online` int(10) unsigned DEFAULT '1',-- 是否上线
+  `level` int(10) unsigned DEFAULT NULL,-- 方便查询，是此分类的等级，但是此字段是不是其实可以取代is_root呢？我认为是可以的，但是此项目并没有用到此字段
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -312,7 +312,9 @@ CREATE TABLE `spec_key` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `unit` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  -- 此规格的单位，比如尺寸这个规格的单位就是英寸什么的，和Sku那里的不一样
   `standard` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  -- 是不是标准规格，主观认定，指可以复用的那种
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `delete_time` datetime DEFAULT NULL,
@@ -327,6 +329,7 @@ DROP TABLE IF EXISTS `spec_value`;
 CREATE TABLE `spec_value` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  -- 一个规格的取值
   `spec_id` int(10) unsigned NOT NULL,
   `create_time` datetime(3) DEFAULT CURRENT_TIMESTAMP(3),
   `update_time` datetime(3) DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),

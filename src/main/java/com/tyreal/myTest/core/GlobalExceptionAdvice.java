@@ -31,7 +31,7 @@ public class GlobalExceptionAdvice {
 
     @ResponseBody
     @ExceptionHandler(value = HttpException.class)
-    public ResponseEntity<UnifyResponse> handleGttpException(HttpServletRequest req, HttpException e) {
+    public ResponseEntity<UnifyResponse> handleHttpException(HttpServletRequest req, HttpException e) {
         System.out.println("http异常");
         String requestUrl = req.getRequestURI();
         String method = req.getMethod();
