@@ -377,4 +377,11 @@ JAVA缺少struct这种只表示数据的这种结构，而是是使用pojo这种
 最完美的方案是自定义注解，但是实在是太麻烦了
 现在使用的方案是2+TypeReference
 
+## JPQL 
+JavaPersistence Query Language
+
+## Optional
+处理空指针问题，optional可以简化代码。
+optional的最大意义是强制考虑空值，如果担心调用者没有处理空值，那就应当使用optional
+
 
