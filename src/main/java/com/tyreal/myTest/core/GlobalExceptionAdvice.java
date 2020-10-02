@@ -57,7 +57,7 @@ public class GlobalExceptionAdvice {
 
     private String formatAllErrorMessage(List<ObjectError> errors) {
         StringBuffer errorMsg = new StringBuffer();
-        errors.forEach(error -> errorMsg.append(error.getDefaultMessage()).append("。"));
+        errors.forEach(error -> errorMsg.append(error.getDefaultMessage()).append(" "));
         return errorMsg.toString();
     }
 

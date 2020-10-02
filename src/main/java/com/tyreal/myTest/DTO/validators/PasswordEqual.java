@@ -1,4 +1,4 @@
-package com.tyreal.myTest.validators;
+package com.tyreal.myTest.DTO.validators;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

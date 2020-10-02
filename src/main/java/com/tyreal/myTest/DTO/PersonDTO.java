@@ -1,11 +1,8 @@
 package com.tyreal.myTest.DTO;
 
-import com.tyreal.myTest.validators.PasswordEqual;
+import com.tyreal.myTest.DTO.validators.PasswordEqual;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.validation.annotation.Validated;
-
-import javax.validation.Valid;
 
 // 数据传输对象
 

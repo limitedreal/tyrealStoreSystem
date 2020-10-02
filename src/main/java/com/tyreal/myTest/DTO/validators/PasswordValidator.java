@@ -1,4 +1,4 @@
-package com.tyreal.myTest.validators;
+package com.tyreal.myTest.DTO.validators;
 
 import com.tyreal.myTest.DTO.PersonDTO;
 

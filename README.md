@@ -384,4 +384,23 @@ JavaPersistence Query Language
 处理空指针问题，optional可以简化代码。
 optional的最大意义是强制考虑空值，如果担心调用者没有处理空值，那就应当使用optional
 
+## 权限
+
+用户 分组
+
+对于API的访问权限以及不同的数据返回(比如价格)
+用户->分组->权限
+
+## 登录
+账号密码
+验证码->动态密码
+
+## 票据 token
+cookie
+
+令牌 JWT
+JWT -> uid+额外信息+时效+随机性
+
+那如果在token即将过期的时候登录了呢？
+token有效期一般建议设置为 2h，不宜设置得太长
 
