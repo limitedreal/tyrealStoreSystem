@@ -20,4 +20,8 @@ public class TokenGetDTO {
     //枚举，类型相关宜用枚举
     //登录方式，可能是账号密码/账号验证码/小程序code码(无password)
 
+
+    //public LoginType getLoginType() {//我发现这里无法自动转换成enum中的数，所以自定义一个getter来帮助转换
+    //    return LoginType.int2Enum(this.loginType);
+    //}
 }

@@ -400,7 +400,34 @@ cookie
 
 令牌 JWT
 JWT -> uid+额外信息+时效+随机性
+库：jjwt、auth0
 
 那如果在token即将过期的时候登录了呢？
 token有效期一般建议设置为 2h，不宜设置得太长
 
+##服务器主动发送请求
+RestTemplate
+
+##open_id和union_id
+open_id是用户相对于当前小程序的唯一id，跨多个小程序/公众号的可能相同
+union_id则不会出现这种问题，对于有多个小程序/公众号的情况，则应该使用union_id
+
+1. code->open_id
+2. user表中查询其user_id(登录)(不应该直接使用open_id，而应该由我们自己掌握凭据)
+3. 有注册的过程(即第一次访问的时候，进入user表中新建其信息)
+4. ->user_id
+5. user_id写入jwt
+6. jwt返回前端
+
+# 拦截
+拦截http请求
+filter  servlet(一种标准接口，比如tomcat就是servlet的一种容器)
+interceptor 依赖于spring
+aop 依赖于spring
+
+顺序：filter-> interceptor -> aop
+注意，返回的过程则是相反的
+
+filter过于低层 interceptor比较简单 aop粒度小，但是复杂
+
+我们这里是无差别拦截，所以使用interceptor
