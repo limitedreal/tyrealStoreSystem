@@ -24,7 +24,6 @@ public class JwtToken {
     }
 
     public static String makeToken(Long uid) {
-        //scope是权限分级的数字，uid是用户id，权限卸载token中方便鉴权
         return JwtToken.getToken(uid, JwtToken.defalutScope);
     }
 
@@ -40,6 +39,17 @@ public class JwtToken {
 
     }
 
+    public static Boolean verifyToken(String token) {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(JwtToken.jwtKey);
+            JWTVerifier verifier = JWT.require(algorithm).build();
+            verifier.verify(token);
+            return true;
+        } catch (JWTVerificationException e) {
+            return false;
+        }
+    }
+
     private static Map<String, Date> calculateExpiredIssues() {
         Map<String, Date> map = new HashMap<>();
         Calendar calendar = Calendar.getInstance();
@@ -50,7 +60,7 @@ public class JwtToken {
         return map;
     }
 
-    public static Optional<Map<String, Claim>> getCalims(String token) {
+    public static Optional<Map<String, Claim>> getClaims(String token) {
         DecodedJWT decodedJWT;
         Algorithm algorithm = Algorithm.HMAC256(JwtToken.jwtKey);
         JWTVerifier jwtVerifier = JWT.require(algorithm).build();

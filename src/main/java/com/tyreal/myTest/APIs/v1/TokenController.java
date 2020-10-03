@@ -1,9 +1,11 @@
 package com.tyreal.myTest.APIs.v1;
 
+import com.tyreal.myTest.DTO.TokenDTO;
 import com.tyreal.myTest.DTO.TokenGetDTO;
 import com.tyreal.myTest.core.enumeration.LoginType;
 import com.tyreal.myTest.exception.http.NotFoundException;
 import com.tyreal.myTest.service.WXAuthenticationService;
+import com.tyreal.myTest.utils.JwtToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,4 +41,14 @@ public class TokenController {
         //即便只有一条，也应该写成map，序列化成json返回回去
         return map;
     }
+
+    @PostMapping("/verify")
+    public Map<String, Boolean> verify(@RequestBody TokenDTO token) {
+        //相当轻量的接口
+        Map<String, Boolean> map = new HashMap<>();
+        Boolean valid = JwtToken.verifyToken(token.getToken());
+        map.put("is_valid", valid);
+        return map;
+    }
+
 }

@@ -37,7 +37,7 @@ public class PermissionInterceptors extends HandlerInterceptorAdapter {
             throw new UnAuthenticatedException(10004);
         }
         String token = tokens[1];
-        Optional<Map<String , Claim>> optionalMap = JwtToken.getCalims(token);
+        Optional<Map<String , Claim>> optionalMap = JwtToken.getClaims(token);
         Map<String ,Claim> map = optionalMap.orElseThrow(()->new UnAuthenticatedException(10004));
         //走到这里令牌则合法，下面对比权限
 
