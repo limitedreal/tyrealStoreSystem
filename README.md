@@ -431,3 +431,11 @@ aop 依赖于spring
 filter过于低层 interceptor比较简单 aop粒度小，但是复杂
 
 我们这里是无差别拦截，所以使用interceptor
+
+## 拦截器逻辑
+1. 获取token
+2. 验证token
+3. 读取scope
+4. 读取访问的API的@ScopeLevel 的 level 值
+5. 比较scope ? level
+

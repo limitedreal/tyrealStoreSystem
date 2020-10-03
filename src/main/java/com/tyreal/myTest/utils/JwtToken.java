@@ -50,7 +50,7 @@ public class JwtToken {
         return map;
     }
 
-    public Optional<Map<String, Claim>> getCalims(String token) {
+    public static Optional<Map<String, Claim>> getCalims(String token) {
         DecodedJWT decodedJWT;
         Algorithm algorithm = Algorithm.HMAC256(JwtToken.jwtKey);
         JWTVerifier jwtVerifier = JWT.require(algorithm).build();

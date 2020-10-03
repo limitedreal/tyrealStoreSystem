@@ -1,6 +1,7 @@
 package com.tyreal.myTest.APIs.v1;
 
 import com.tyreal.myTest.DTO.PersonDTO;
+import com.tyreal.myTest.core.interceptors.ScopeLevel;
 import com.tyreal.myTest.exception.http.NotFoundException;
 import com.tyreal.myTest.model.Banner;
 import com.tyreal.myTest.sample.ISkill;
@@ -20,6 +21,7 @@ public class BannerController {
     private BannerService bannerService;
 
     @GetMapping("/name/{name}")
+    @ScopeLevel()
     public Banner getByName(@PathVariable String name) {
         Banner b = bannerService.getByName(name);
         if(b==null){
