@@ -8,7 +8,6 @@
 @Controller
 @Repository
 
-
 @Configuration
 
 - @Configuration用于取代xml
@@ -20,7 +19,6 @@
 1. 集中，易于修改
 2. 清晰，只有数据没有逻辑
 所以可见Configuration类同样有这样的优势
-
 
 桥接点
 
@@ -50,10 +48,8 @@ POJO、Bean
 · 对于实现了同一个接口的多个类，可以通过打上primary选择优先类(此方式更适用于多人协作和库开发)
 · 更好地方式是使用条件注解
 
-
 @ConfigurationProperties
 - 读取配置文件中的指定key-value并自动赋值给类的成员变量
-
 
 ## 条件注解@Conditional
 - 编写自定义条件注解
@@ -152,8 +148,6 @@ Spring中可以直接返回类，Spring会进行序列化，但是需要保证�
 
 #### 自定义校验方式
 
-    
-
 ## lombok
 1. getter、setter、Data
 `data注解除了会生成getter和setter外，还会生成equals,hashCode,toString等方法`
@@ -198,8 +192,6 @@ APIs->          controller层
 service->       service层
 repository->    repository层
 
-
-
 ## JPA
 `简单查询很方便`
 1. 数据表如何创建
@@ -224,7 +216,6 @@ repository->    repository层
 数据表-> 类
 记录  ->对象
 字段  ->属性/成员变量
-
 
 ## 数据库表与表之间的关系
 1对1：
@@ -371,7 +362,7 @@ JAVA缺少struct这种只表示数据的这种结构，而是是使用pojo这种
 3. 将2中的方法进一步改造为泛型方法，使用getter和setter
 坑：
     1. java的泛型是在编译期而不是runtime，而反序列化的时候需要获取元类，就产生了矛盾
-    2. 如果把List<S>整体当做泛型，但是传入的时候List<Object>.class这种方式是是不对的，需要引入TypeReference的方法解决这个问题了，而且可以统一List和Object两种方式
+    2. 如果把List< S >整体当做泛型，但是传入的时候List<Object>.class这种方式是是不对的，需要引入TypeReference的方法解决这个问题了，而且可以统一List和Object两种方式
     3. 将S当做泛型，处理List简单方便，但是这种方式是有点问题的，T泛型并不会被转化成强类型的类，而是会变成HashMap，所以这个方法还是有带问题滴
 
 最完美的方案是自定义注解，但是实在是太麻烦了
@@ -464,5 +455,91 @@ filter过于低层 interceptor比较简单 aop粒度小，但是复杂
 出于性能的目的，所以我们使用第一种
 优惠券和二级分类关联
 
+## 单表查询与联表查询
+join
+
+## 超权
+权限不能写在用户可能篡改的位置
+## ThreadLocal 线程
+使用全局静态类保存用户信息虽然方便，但是会产生并发覆盖的问题
+使用map方式，并且为了方便区分，以线程标识作为key，但是一方面不好清除，而且线程不安全
+
+在web的角度而言，不应该从set或者多个用户的角度考虑，而应该从多线程并发的复杂问题来考虑
+我们需要的是一个类似于map的数据结构，其key为线程表示，value是用户数据
+所以这里使用ThreadLocal这种数据结构
+其实方法很多，看上去ConcurrentHashMap这种结构很适合，这是一种线程安全的map
+
+## 拦截器的注入问题
+原本是在拦截器configuration里面new了一个拦截器并且注册，但是后面发现无法进行依赖注入
+其实如果在这里直接new PermissionInterceptors，那么PermissionInterceptors是无法被注入到容器里去的
+在里面无法实现依赖注入，但是拦截器的功能还是正常的
+其实是因为单例模式，就算在PermissionInterceptors里面打上component注解
+那里注入的PermissionInterceptors加入了bean而这里new的PermissionInterceptors没有，他们不是同一个实例
+所以无法注入，我们在这里使用@bean标记了生成方法，调用生成方法注入了一个实例，并且获得了这个实例，他就直接把这个类型已经注入进去了，
+就遵循了单例模式，保证我们使用的拦截器和bean中的PermissionInterceptors是同一个单例
+
+##异步模式下数据的一致性
+最核心的原因是我们引入了延迟订单支付的机制
+那么这个间隔期，就会导致大量的异步同步的问题
+库存、优惠券等等等都要受到异步数据的同步问题
+这个问题是很复杂的，甚至异步机制也不是一定能执行成功的
+
+## 触发机制
+优惠券的使用、未使用都是有用户操作的，但是已过期并没有一种触发机制
+所以我们在寻找已过期优惠券的时候就不能单纯的以status确定是否过期
+1. 主动触发(轮询)                                                         ×
+2. 被动触发 寻找一个第三方，每到优惠券过期的时间点就给springboot发送消息触发状态改变 √
+常用的：Redis/RocketMQ
+但是其实也可以不用status查询，只要查endTime就好了
+
+那么优惠券的status的问题是：
+1. 一定要表示status=3(过期)吗？
+2. 表示出来一定可信吗？
+
+## 一个订单，要校验哪些信息
+1. 商品是不是无货了
+2. 商品最大购买数量(单个订单商品总数量限制)
+3. SKU本身的最大购买数量的限制
+4. 总价
+5. 折后价
+6. 是否拥有优惠券
+7. 优惠券是否过期
+
+##浮点数运算
+JS 浮点数运算非常不精确
+一般转换成整数运算
+Java BigDecimal
+
+##取舍
+为了达到统计上的平衡，我们使用四舍六入的方法
+1 -1
+9 +1
+
+2 -2
+8 +2
+
+3 -3
+7 +3
+
+4 -4
+6 +4
+5怎么处理呢？
+我们使用银行家舍入算法处理这个问题
+IEEE小数取整的标准方案
+四舍六入五考虑
+(JS中toFixed()在某些浏览器中使用的是银行家舍入算法)
+
+##Spring的单例模式
+
+(此处不赘述了)
+
+可以使用@Scope()注解指定bean的模式，@Scope("prototype")为多例模式
+1. 使用参数注入
+2. 使用ObjectFactory容纳注入的对象
+``` @Autowired
+    private ObjectFactory<Test> test1;
+```
+3. 动态代理
+@Scope(value = "prototype",proxyMode = ScopedProxyMode.TARGET_CLASS)//如果是代理类的话
 
 

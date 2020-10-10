@@ -10,9 +10,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface ActivityRepository extends JpaRepository<Activity,Long> {
-
+public interface ActivityRepository extends JpaRepository<Activity, Long> {
     Optional<Activity> findOneByName(String name);
 
-
+    Optional<Activity> findByCouponListId(Long couponId);
 }

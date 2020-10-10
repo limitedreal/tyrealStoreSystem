@@ -16,7 +16,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user_coupon", schema = "sleeve", catalog = "")
+@Table(name = "user_coupon")
 public class UserCoupon{
     //作为第三章表，唯独usercoupon是建立了model，因为有特殊的意义
     @Id
@@ -25,6 +25,8 @@ public class UserCoupon{
     private Long userId;
     private Long couponId;
     private Integer status;
+    //是否使用过
+
     private Long orderId;
     private Date createTime;
 

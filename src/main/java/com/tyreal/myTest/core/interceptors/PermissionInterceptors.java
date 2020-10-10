@@ -1,9 +1,14 @@
 package com.tyreal.myTest.core.interceptors;
 
 import com.auth0.jwt.interfaces.Claim;
+import com.tyreal.myTest.core.LocalUser;
 import com.tyreal.myTest.exception.http.ForbiddenException;
 import com.tyreal.myTest.exception.http.UnAuthenticatedException;
+import com.tyreal.myTest.model.User;
+import com.tyreal.myTest.service.UserService;
 import com.tyreal.myTest.utils.JwtToken;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -40,8 +45,11 @@ public class PermissionInterceptors extends HandlerInterceptorAdapter {
         Optional<Map<String , Claim>> optionalMap = JwtToken.getClaims(token);
         Map<String ,Claim> map = optionalMap.orElseThrow(()->new UnAuthenticatedException(10004));
         //走到这里令牌则合法，下面对比权限
-
+        //TODO:这里的map：scope(int)和uid(long)
         Boolean valid = hasPermission(scopeLevel.get(),map);
+        if(valid){
+            this.setToThreadLocal(map);
+        }
         return valid;
     }
 
@@ -82,6 +90,18 @@ public class PermissionInterceptors extends HandlerInterceptorAdapter {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         //最后释放资源
+        LocalUser.clear();
         super.afterCompletion(request, response, handler, ex);
     }
+
+    @Autowired
+    public UserService userService;
+
+    public void setToThreadLocal(Map<String ,Claim> map){
+        Long uid = map.get("uid").asLong();
+        Integer scope = map.get("scope").asInt();
+        User user = userService.geyUserById(uid);
+        LocalUser.set(user,scope);
+    }
+
 }
