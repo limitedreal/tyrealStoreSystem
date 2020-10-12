@@ -46,6 +46,10 @@ public class Sku extends BaseEntity {
         });
     }
 
+    public BigDecimal getActualPrice(){
+        return discountPrice==null?this.price:this.discountPrice;
+    }
+
     public void setSpecs(List<Spec> specs) {
         if (specs.isEmpty()) {
             return;

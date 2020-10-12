@@ -542,4 +542,12 @@ IEEE小数取整的标准方案
 3. 动态代理
 @Scope(value = "prototype",proxyMode = ScopedProxyMode.TARGET_CLASS)//如果是代理类的话
 
+##带有使用分类限制的优惠券校验
+
+## 多分类的情况
+鞋子、包包
+
+双重for循环
+我们使用Map的reduce
+
 
