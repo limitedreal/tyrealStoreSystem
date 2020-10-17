@@ -6,6 +6,7 @@ import com.tyreal.myTest.utils.ListAndJson;
 import com.tyreal.myTest.utils.MapAndJson;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -17,6 +18,7 @@ import java.util.Map;
 @Entity
 @Getter
 @Setter
+@Where(clause = "delete_time is null and online = 1")
 public class Sku extends BaseEntity {
     @Id
     private Long id;

@@ -22,4 +22,6 @@ myTest:
     security:
         jwt-key: tyrealAnubrekhan
         token-expired-in: 86400000
+    order:
+        max-sku-limit: 888
 # 令牌的过期时间
