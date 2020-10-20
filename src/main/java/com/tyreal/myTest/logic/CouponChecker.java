@@ -21,7 +21,6 @@ public class CouponChecker {
     private Coupon coupon;
     private IMoneyDiscount iMoneyDiscount;
 
-
     public CouponChecker(Coupon coupon, IMoneyDiscount iMoneyDiscount) {
         this.coupon = coupon;
         this.iMoneyDiscount = iMoneyDiscount;

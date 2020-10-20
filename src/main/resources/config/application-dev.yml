@@ -22,6 +22,11 @@ myTest:
     security:
         jwt-key: tyrealAnubrekhan
         token-expired-in: 86400000
+        # 令牌的过期时间
     order:
         max-sku-limit: 888
-# 令牌的过期时间
+        pay-time-limit: 3600
+        # 订单支付的延迟控制
+        year-codes: A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z
+        year-start: 2020
+        #从year-start年开始每一年是一个字母

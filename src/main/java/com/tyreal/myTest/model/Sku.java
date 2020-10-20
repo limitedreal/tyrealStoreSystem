@@ -2,18 +2,15 @@ package com.tyreal.myTest.model;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tyreal.myTest.utils.GenerateAndJson;
-import com.tyreal.myTest.utils.ListAndJson;
-import com.tyreal.myTest.utils.MapAndJson;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -39,6 +36,13 @@ public class Sku extends BaseEntity {
     private String specs;
     private Long stock;
     //库存量还有单位这个概念，如果要做可以再做一张表
+
+    public List<String> getSpecValueList(){
+        return this.getSpecs()
+                .stream()
+                .map(Spec::getValue)
+                .collect(Collectors.toList());
+    }
 
     public List<Spec> getSpecs() {
         if (this.specs == null) {
