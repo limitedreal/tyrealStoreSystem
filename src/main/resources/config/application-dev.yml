@@ -17,6 +17,10 @@ wx:
   appid: wx0dc4063b0624495e
   appsercret: 35b4bb409585b46684c68492e1fcbcf7
   code2session: https://api.weixin.qq.com/sns/jscode2session?appid={0}&secret={1}&js_code={2}&grant_type=authorization_code
+  MchID: abc
+  MchKey: def
+  pay-callback-host: http://tianlb.cn
+  pay-callback-path: /v1/payment/wx/notify
 
 myTest:
     security:
