@@ -20,7 +20,7 @@ public class TyrealWxPayConfig extends WXPayConfig {
 
     @Value("${wx.MchKey}")
     private String MchKey;
-            //="def";
+    //="def";
 
     @Override
     public String getAppID() {
@@ -40,6 +40,14 @@ public class TyrealWxPayConfig extends WXPayConfig {
         return this.MchKey;
     }
 
+    public int getHttpConnectTimeoutMs() {
+        return 8000;
+    }
+
+    public int getHttpReadTimeoutMs() {
+        return 10000;
+    }
+    
     @Override
     InputStream getCertStream() {
         //证书流，我们没有用到微信的证书
@@ -47,9 +55,19 @@ public class TyrealWxPayConfig extends WXPayConfig {
     }
 
     @Override
-    IWXPayDomain getWXPayDomain() {
-        //目前先返回null
-        return null;
+    public IWXPayDomain getWXPayDomain() {
+        IWXPayDomain iwxPayDomain = new IWXPayDomain() {
+            @Override
+            public void report(String domain, long elapsedTimeMillis, Exception ex) {
+
+            }
+
+            @Override
+            public DomainInfo getDomain(WXPayConfig config) {
+                return new IWXPayDomain.DomainInfo(WXPayConstants.DOMAIN_API, true);
+            }
+        };
+        return iwxPayDomain;
     }
 
 }

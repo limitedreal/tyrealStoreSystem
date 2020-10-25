@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class CouponService {
+public class CouponService{
 
     @Autowired
     private CouponRepository couponRepository;

@@ -2,6 +2,7 @@ package com.tianlb.myTest.APIs.v1;
 
 import com.tianlb.myTest.core.interceptors.ScopeLevel;
 import com.tianlb.myTest.lib.TyrealWXNotify;
+import com.tianlb.myTest.service.WXPaymentNotifyService;
 import com.tianlb.myTest.service.WXPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -24,6 +25,9 @@ public class PaymentController {
 
     @Autowired
     private WXPaymentService wxPaymentService;
+
+    @Autowired
+    private WXPaymentNotifyService wxPaymentNotifyService;
 
     //@Autowired
     //private WxPaymentNotifyService wxPaymentNotifyService;
@@ -58,8 +62,8 @@ public class PaymentController {
             this.wxPaymentNotifyService.processPayNotify(xml);
         }
         catch (Exception e){
-            return LinWxNotify.fail();
+            return TyrealWXNotify.fail();
         }
-        return LinWxNotify.success();
+        return TyrealWXNotify.success();
     }
 }

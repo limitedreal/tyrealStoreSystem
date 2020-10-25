@@ -107,12 +107,12 @@ public class WXPaymentService {
         return true;
     }
 
-    private Map<String, String> makePreOrderParams(BigDecimal serverFinalPrice,String orderId) {
+    private Map<String, String> makePreOrderParams(BigDecimal serverFinalPrice,String orderNo) {
         //组装微信支付preOrder的相关数据
         String payCallbackUrl=this.payCallbackHost+this.payCallbackPath;
         Map<String, String> data = new HashMap<>();
         data.put("body", "Sleeve");//商品名称
-        data.put("out_trade_no", orderId);//我们定义的orderId
+        data.put("out_trade_no", orderNo);//我们定义的orderId
         data.put("device_info", "Sleeve");//自定义参数，可以为终端设备号(门店号或收银设备ID)，PC网页或公众号内支付可以传"WEB"
         data.put("fee_type", "CNY");//货币单位
         data.put("trade_type", "JSAPI");//JSAPI--JSAPI支付（或小程序支付）、NATIVE--Native支付、APP--app支付，MWEB--H5支付，不同trade_type决定了调起支付的方式，请根据支付产品正确上传
@@ -126,8 +126,12 @@ public class WXPaymentService {
         return data;
     }
 
-    private WXPay assembleWxPayConfig() {
-        WXPay wxPay = null;
+    WXPay wxPay = null;
+
+    public WXPay assembleWxPayConfig() {
+        if(wxPay!=null){
+            return wxPay;
+        }
         try {
             wxPay = new WXPay(this.wxPayConfig);
         } catch (Exception e) {
